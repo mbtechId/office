@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Str;
 use App\Http\Requests;
 use App\User;
-// use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+// use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 
 // use Intervention\Image\Facades\Image;
 // use Illuminate\Support\Arr;

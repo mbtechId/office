@@ -2,12 +2,12 @@
 
 namespace App;
 
-use Illuminate\Support\Str;
 use Carbon\Carbon;
-// use Illuminate\Database\Eloquent\SoftDeletes;
 use DB;
+// use Illuminate\Database\Eloquent\SoftDeletes;
 use GrahamCampbell\Markdown\Facades\Markdown;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Post extends Model
 {
