@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Support\Str;
 use Carbon\Carbon;
 // use Illuminate\Database\Eloquent\SoftDeletes;
 use DB;
@@ -113,7 +114,7 @@ class Post extends Model
     {
         $commentsNumber = $this->comments->count();
 
-        return $commentsNumber.' '.str_plural('Comment', $commentsNumber);
+        return $commentsNumber.' '.Str::plural('Comment', $commentsNumber);
     }
 
     public function createComment(array $data)
@@ -209,7 +210,7 @@ class Post extends Model
         $tagIds = [];
         foreach ($tags as $tag) {
             $newTag = Tag::firstOrCreate([
-                'slug' => str_slug($tag),
+                'slug' => Str::slug($tag),
                 'name' => ucwords(trim($tag)),
             ]);
             $tagIds[] = $newTag->id;

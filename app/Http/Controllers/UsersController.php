@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Str;
 use App\Http\Requests;
 use App\User;
 // use App\Http\Controllers\Controller;
@@ -54,7 +55,7 @@ class UsersController extends Controller
             if ($request->hasFile('image')) {
                 $dir = 'images/';
                 $extension = strtolower($request->file('image')->getClientOriginalExtension()); // get image extension
-                $fileName = str_random().'.'.$extension; // rename image
+                $fileName = Str::random().'.'.$extension; // rename image
                 $request->file('image')->move($dir, $fileName);
                 $user->avatar = url('images/').'/'.$fileName;
             }
@@ -185,7 +186,7 @@ class UsersController extends Controller
                     File::delete($dir.$image->image);
                 }
                 $extension = strtolower($request->file('image')->getClientOriginalExtension());
-                $fileName = str_random().'.'.$extension;
+                $fileName = Str::random().'.'.$extension;
                 $request->file('image')->move($dir, $fileName);
                 $user->avatar = url('images/').'/'.$fileName;
             } elseif ($request->remove == 1 && File::exists('images/'.$user->avatar)) {
