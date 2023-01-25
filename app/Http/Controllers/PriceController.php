@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Price;
+use Illuminate\Http\Request;
 use Image;
 
 class PriceController extends Controller
@@ -13,6 +12,7 @@ class PriceController extends Controller
     {
         $this->middleware('auth');
     }
+
     public function index()
     {
         $pricemobil = Price::orderBy('id')
@@ -30,43 +30,49 @@ class PriceController extends Controller
         ->WhereNull('deleted_at')
         ->get();
 
-        return view('price.index', compact('pricemobil','pricemotor','pricesofa'));
+        return view('price.index', compact('pricemobil', 'pricemotor', 'pricesofa'));
     }
+
     public function create()
     {
         return view('price.create');
     }
+
     public function show($id)
     {
         $item = Post::published()->findOrFail($id);
-        
-        return view('data.show',compact('item'));
+
+        return view('data.show', compact('item'));
     }
-    public function edit($id) 
+
+    public function edit($id)
     {
         $price = Price::find($id);
-        return view('price.edit',compact('price','id'));
+
+        return view('price.edit', compact('price', 'id'));
     }
+
     public function store(Request $request)
     {
-        $price= new \App\Price;
-        $price->name=$request->get('name');
-        $price->category=$request->get('category');
-        $price->products=$request->get('products');
-        $price->first_specs=$request->get('first_specs');
-        $price->second_specs=$request->get('second_specs');
-        $price->third_specs=$request->get('third_specs');
-        $price->keterangan= 'diinput by '.$request->user()->name.$request->user()->id;
-        if($request->hasfile('gambar')){
-            $price->gambar= $this->uploadFoto($request);
+        $price = new \App\Price;
+        $price->name = $request->get('name');
+        $price->category = $request->get('category');
+        $price->products = $request->get('products');
+        $price->first_specs = $request->get('first_specs');
+        $price->second_specs = $request->get('second_specs');
+        $price->third_specs = $request->get('third_specs');
+        $price->keterangan = 'diinput by '.$request->user()->name.$request->user()->id;
+        if ($request->hasfile('gambar')) {
+            $price->gambar = $this->uploadFoto($request);
             $price->save();
         }
         $price->save();
-        
+
         // dd($datapro);
-        
+
         return redirect('price')->with('message', ' Harga '.$price->name.' Berhasil Ditambahkan, Silahkan Dicek Kembali.');
     }
+
     /**
      * Update the specified resource in storage.
      *
@@ -76,21 +82,21 @@ class PriceController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $price= Price::find($id);
-        $price->name=$request->get('name');
-        $price->category=$request->get('category');
-        $price->products=$request->get('products');
-        $price->first_specs=$request->get('first_specs');
-        $price->second_specs=$request->get('second_specs');
-        $price->third_specs=$request->get('third_specs');
-        $price->keterangan= 'edited by '.$request->user()->name.$request->user()->id;
-        if($request->hasfile('gambar')){
-            $price->gambar= $this->uploadFoto($request);
+        $price = Price::find($id);
+        $price->name = $request->get('name');
+        $price->category = $request->get('category');
+        $price->products = $request->get('products');
+        $price->first_specs = $request->get('first_specs');
+        $price->second_specs = $request->get('second_specs');
+        $price->third_specs = $request->get('third_specs');
+        $price->keterangan = 'edited by '.$request->user()->name.$request->user()->id;
+        if ($request->hasfile('gambar')) {
+            $price->gambar = $this->uploadFoto($request);
             $price->save();
         }
         $price->save();
-        
-        return redirect()->back()->with('message', ' Harga '.$price->name.' berhasil diperbaharui');;
+
+        return redirect()->back()->with('message', ' Harga '.$price->name.' berhasil diperbaharui');
     }
 
     /**
@@ -102,11 +108,11 @@ class PriceController extends Controller
     public function destroy(Request $request, $id)
     {
         $price = Price::find($id);
-        $price->deleted_at = date("Y-m-d H:i:s");
-        $price->keterangan= 'deleted by '.$request->user()->name.$request->user()->id;
+        $price->deleted_at = date('Y-m-d H:i:s');
+        $price->keterangan = 'deleted by '.$request->user()->name.$request->user()->id;
         $price->save();
         // $datapro->delete();
-        return redirect('price')->with('message',' Harga Berhasil Dihapus');
+        return redirect('price')->with('message', ' Harga Berhasil Dihapus');
     }
 
     private function uploadFoto(Request $request)
@@ -117,18 +123,18 @@ class PriceController extends Controller
         // $foto = $request->file('gambar1') ;
         // $ext = $foto->getClientOriginalExtension();
         $toko = $request->get('name');
-        $cleanname = str_replace("/", "", $toko);
+        $cleanname = str_replace('/', '', $toko);
         $image = $request->file('gambar');
         $input['imagename'] = $cleanname.time().'.'.$image->getClientOriginalExtension();
-        
-        $destinationPath = str_replace("office/public","html",public_path()).'/office/images/thumbnail';
+
+        $destinationPath = str_replace('office/public', 'html', public_path()).'/office/images/thumbnail';
         // Image::configure(array('driver' => 'imagick'));
         $img = Image::make($image->getRealPath());
         $img->resize(250, 250, function ($constraint) {
             $constraint->aspectRatio();
         })->save($destinationPath.'/'.$input['imagename']);
-   
-        $destinationPath = str_replace("office/public","html",public_path()).'/office/images';
+
+        $destinationPath = str_replace('office/public', 'html', public_path()).'/office/images';
         $image->move($destinationPath, $input['imagename']);
         // $this->postImage->add($input);
         // if($request->file('gambar1')->isValid()){

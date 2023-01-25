@@ -24,9 +24,9 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/home/data', 'HomeController@datambtech')->name('data');
-Route::resource('/price', 'PriceController',['as' => 'price']);
-Route::resource('/data', 'DataController',['as' => 'data']);
-Route::resource('/customer', 'CustomerController',['as' => 'customer']);
+Route::resource('/price', 'PriceController', ['as' => 'price']);
+Route::resource('/data', 'DataController', ['as' => 'data']);
+Route::resource('/customer', 'CustomerController', ['as' => 'customer']);
 Route::post('/customer/loaddaerah', 'CustomerController@loadDaerah')->name('customer.loaddaerah');
 
 Route::get('importexport', 'RestoreController@importExport');
@@ -34,9 +34,9 @@ Route::get('downloadexcel/{type}', 'RestoreController@downloadExcel');
 Route::post('importexcel', 'RestoreController@importExcel');
 
 // Route::resource('/users', 'UsersController',['as' => 'users']);
-Route::get('/getkota/{id}','DataController@getKota');
-Route::get('/detailpdf/{id}','DataController@detailpdf');
-Route::get('/allpdf','DataController@allpdf');
+Route::get('/getkota/{id}', 'DataController@getKota');
+Route::get('/detailpdf/{id}', 'DataController@detailpdf');
+Route::get('/allpdf', 'DataController@allpdf');
 
 Route::post('customer/sendmail', 'CustomerController@sendMail')->name('customer.sendmail');
 
